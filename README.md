@@ -49,7 +49,8 @@ After PR #2 is reviewed/merged, create a second Vercel project from `AnkitMandus
 - Root Directory: `superapp-admin`
 - Framework: Vite
 - Use the build command and output directory from that app's `package.json`/Vite configuration (expected Vite defaults: `npm run build` and `dist`; verify during import).
-- Configure its existing backend/API and authentication environment variables using the values already used by the app. Never put backend secrets in this public website repository.
+- Add the dashboard environment variable `VITE_API_URL` with the public backend origin only (for example, `https://api.your-domain` — use your actual deployed API host, without `/api/v1` or a trailing slash). The dashboard client appends `/api/v1` automatically. The current app defaults to `/api/v1` on its own host when this variable is missing, which is not correct for a separate dashboard host unless you have deliberately configured a same-host API proxy.
+- Confirm the backend CORS allowlist includes `https://partners.jinniwishes.in` if the API enforces browser-origin restrictions. Never put backend secrets or private keys in Vite environment variables; `VITE_` values are exposed in the browser.
 
 Assign the dashboard Vercel project the subdomain `partners.jinniwishes.in`. Once it is live, the portal routes are:
 - `https://partners.jinniwishes.in/admin`
