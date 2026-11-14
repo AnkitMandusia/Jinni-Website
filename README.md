@@ -78,3 +78,30 @@ npm run preview
 ```
 
 No checkout, payment, or live order-placement flow is claimed by this marketing-only frontend.
+
+
+## Public website features and configuration
+
+The homepage includes a PIN-code availability checker backed by the existing Jinni API:
+- Restaurant listings: \`GET /api/v1/food/restaurants?pincode={pincode}&page=1&page_size=1\`
+- Grocery stores: \`GET /api/v1/grocery/stores?pincode={pincode}\`
+
+Set these Vercel environment variables for the **public website** project:
+- \`VITE_PARTNER_PORTAL_URL\`: partner dashboard origin (defaults to \`https://partners.jinniwishes.in\`).
+- \`VITE_API_URL\`: actual deployed FastAPI origin only, without \`/api/v1\` and without a trailing slash. The website appends \`/api/v1\` to call the two read-only lookup endpoints. No API hostname is hardcoded because the repository does not identify the production backend host. The checker displays a clear setup message while this value is unset; it does not show sample or fabricated availability.
+
+After setting or changing Vercel environment variables, redeploy the website. Test the checker with a PIN code that has known active listings and another that has none. Verify both restaurant and grocery responses in the browser Network panel.
+
+## Website sections and links
+
+The public homepage includes:
+- Food and grocery discovery sections
+- Live PIN-code lookup (requires \`VITE_API_URL\`)
+- Three-step explanation, partner login/contact paths, FAQ and contact section
+- Standalone \`/privacy.html\` and \`/terms.html\` pages
+
+The website does not include payment flows, customer account creation, a fake order form, store availability promises, app-download links, or claims that ordering is active in every area. The privacy and terms pages are scoped to this public website; have the appropriate legal owner review them before public launch and publish separate notices for the app/dashboard as required.
+
+## Image assets
+
+The homepage references the food, grocery and Jinni hero images already present in \`AnkitMandusia/Jinni\` under \`superapp-mobile/assets\`, served from the repository's public raw-content URLs. If the source asset paths are renamed, update \`ASSETS\` in \`src/main.jsx\`. For a fully self-contained deployment, copy approved production image files into this repository's \`public/images\` folder and update those references.
